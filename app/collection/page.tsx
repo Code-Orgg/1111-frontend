@@ -1,3 +1,4 @@
+export const dynamic = 'force-dynamic'
 import type { Metadata } from 'next'
 import { getProducts } from '@/lib/api'
 import { CollectionGrid } from '@/components/collection-grid'
