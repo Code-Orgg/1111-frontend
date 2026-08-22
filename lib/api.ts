@@ -61,16 +61,6 @@ async function request<T>(path: string, init?: RequestInit): Promise<T> {
   if (res.status === 204) return undefined as T
   return res.json() as Promise<T>
 }
-
-// GET /api/products — falls back to the demo catalogue when the API is offline.
-export async function getProducts(): Promise<Product[]> {
-  try {
-    return await request<Product[]>('/api/products')
-  } catch {
-    return DEMO_PRODUCTS
-  }
-}
-
 // GET /api/products/:id — falls back to the demo catalogue when the API is offline.
 export async function getProduct(id: string): Promise<Product | null> {
   try {
