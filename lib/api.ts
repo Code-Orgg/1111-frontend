@@ -1,3 +1,5 @@
+const rawUrl = process.env.NEXT_PUBLIC_API_URL || '';
+const API_URL = rawUrl.startsWith('http') ? rawUrl : `https://${rawUrl}`;
 import type { AuthResponse, CartLine, Product, User } from './types'
 import { DEMO_PRODUCTS } from './demo-data'
 
