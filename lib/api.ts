@@ -2,8 +2,6 @@ const rawUrl = process.env.NEXT_PUBLIC_API_URL || '';
 const API_URL = rawUrl.startsWith('http') ? rawUrl : `https://${rawUrl}`;
 import type { AuthResponse, CartLine, Product, User } from './types'
 import { DEMO_PRODUCTS } from './demo-data'
-
-const API_URL = process.env.NEXT_PUBLIC_API_URL
 const TOKEN_KEY = 'ouverture_token'
 
 export function getToken(): string | null {
