@@ -137,31 +137,24 @@ export async function resetPassword(email: string, otp: string, newPassword: str
   })
 }
 
-export interface ShippingDetails {
-  fullName: string
-  email: string
-  phone: string
-  street: string
-  city: string
-  country: string
-  postalCode: string
+export async function getProducts(): Promise<Product[]> {
+  if (!API_URL) return DEMO_PRODUCTS; // Fallback to demo data if API_URL isn't set yet
+
+  try {
+    const res = await fetch(`${API_URL}/api/products`, {
+      signal: AbortSignal.timeout(5000), // Times out after 5s so build doesn't hang
+      cache: 'no-store',
+    });
+
+    if (!res.ok) return DEMO_PRODUCTS;
+    return await res.json();
+  } catch (error) {
+    console.warn("API request failed, falling back to demo data:", error);
+    return DEMO_PRODUCTS;
+  }
 }
 
-export type PaymentMethod = 'PAYSTACK' | 'SQUAD' | 'MONNIFY' | 'WALLET'
-
-export interface PlaceOrderPayload {
-  items: { productId: string; qty: number; framing: string }[]
-  shipping: ShippingDetails
-  paymentMethod: PaymentMethod
-}
-
-export interface PlaceOrderResponse {
-  orderId: string
-  paid?: boolean
-  checkoutUrl?: string
-}
-
-// POST /api/orders — order placement at checkout. Returns either
+// POST /api/orders – order placement at checkout.
 // `{ paid: true }` (wallet — order is already confirmed) or a `checkoutUrl`
 // to redirect the buyer to the payment gateway's hosted checkout page.
 export async function placeOrder(payload: PlaceOrderPayload): Promise<PlaceOrderResponse> {
